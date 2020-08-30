@@ -3,14 +3,14 @@ FROM node
 RUN apt-get update && apt-get upgrade -y \
     && apt-get clean
 
-RUN mkdir /app
-WORKDIR /app
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
 
-COPY package.json /app/
-RUN npm install --only=production
+COPY package.json ./
+RUN npm install
 
-COPY src /app/src
+COPY . .
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD [ "npm", "start" ]
