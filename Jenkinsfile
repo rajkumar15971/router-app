@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = "rajkumar524/rect-app"
+    registry = "rajkumar524/react-app"
     registryCredential = 'dockerhub'
     dockerImage = ''
     DOCKER_TAG = getDockerTag()
@@ -21,7 +21,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry + ":" + DOCKER_TAG
         }
       }
     }
