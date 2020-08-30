@@ -1,42 +1,11 @@
-pipeline {
-  environment {
-    registry = "rajkumar524/docker-test"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
-  agent any
-  tools {nodejs "node" }
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/rajkumar15971/router-app'
-      }
+node {
+    checkout scm
+
+    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+
+        def customImage = docker.build("rajkumar524/react-app")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
     }
-    stage('Build') {
-       steps {
-         sh 'npm install'
-       }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-         script {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
-  }
 }
