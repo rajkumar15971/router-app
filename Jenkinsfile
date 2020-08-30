@@ -25,6 +25,7 @@ pipeline {
          script {
             docker.withRegistry( '', registryCredential ) {
             dockerImage.push(DOCKER_TAG)
+              dockerImage.push(latest)
           }
         }
       }
