@@ -13,11 +13,6 @@ pipeline {
         git 'https://github.com/rajkumar15971/router-app'
       }
     }
-    stage('Build') {
-       steps {
-         sh 'npm install'
-       }
-    }
     stage('Building image') {
       steps{
         script {
